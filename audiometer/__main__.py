@@ -2,7 +2,7 @@
 This implements the main user interface using PySimpleGUI.
 """
 import PySimpleGUI as sg
-import audiometer
+from audiometer import audiometer
 
 PROGRAM_TITLE = "Hearing Exam"
 

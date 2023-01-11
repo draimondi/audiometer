@@ -4,7 +4,7 @@ This python script will simulate a hearing exam, with distinct frequencies and v
 import threading
 import time
 import numpy
-import tone_generator
+from audiometer import tone_generator
 
 INITIAL_VOLUME = 0.0001  # Volume at which to start each tone test
 VOLUME_DELTA = 0.0001  # Amount to increment the volume until sound is detected
@@ -26,6 +26,7 @@ class ExamThread(threading.Thread):
         self.sound_detected = False
         self.tone = None
         self.running = False
+        self.generate_exam_combinations()
 
     def generate_exam_combinations(self, randomize=False):
         """Generates the combinations of frequencies and channels used for the exam"""

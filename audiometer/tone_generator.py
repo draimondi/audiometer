@@ -19,21 +19,19 @@ class ToneThread(threading.Thread):
     RIGHT_CHANNEL = "right"
     BITS = 16
     TONE_ARRAY_TYPE = np.float32
-    DEFAULT_SAMPLE_RATE = (
-        44100  # sample rate: frames/samples per second. Hz, must be integer
-    )
+    DEFAULT_SAMPLE_RATE = 44100  # frames or samples per second. Hz, must be integer
     DEFAULT_FREQUENCY = 440.0  # sine frequency, Hz, may be float
     DEFAULT_PERIOD = 0.2  # in seconds, may be float
     DEFAULT_LOOPS = 1  # number of times to play the tone. -1 for infinite
 
     def generate_sine_wave(self, num_samples, array_type):
         """Generates a sine wave array of the specified type"""
-        sample_array = np.arange(
-            num_samples, dtype=array_type
-        )  # creates a template array
+        # creates a template array
+        sample_array = np.arange(num_samples, dtype=array_type)
+        # applies sine wave pattern to the array
         sine_array = np.sin(
             2 * np.pi * sample_array * self.frequency / self.sample_rate
-        )  # applies sine wave pattern to the array
+        )
         return sine_array
 
     def make_stereo_tone(self):
