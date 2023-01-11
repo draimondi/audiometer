@@ -38,7 +38,7 @@ def test_mute():
 def test_duration():
     """Checks duration of the tone"""
     sound_thread = tone_generator.ToneThread()
-    assert sound_thread.get_duration() == tone_generator.DEFAULT_PERIOD
+    assert sound_thread.get_duration() == sound_thread.DEFAULT_PERIOD
 
 
 def test_frequency():
