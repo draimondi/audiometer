@@ -2,16 +2,19 @@
 from audiometer import tone_generator
 
 
-def test_tone_generator():
+def test_stereo_tone_generator():
     """Test tone generation"""
     sound_thread = tone_generator.ToneThread()
-    assert sound_thread.generate_sine_tone() is not None
+    sound_thread.make_stereo_tone()
+    stereo_tone = sound_thread.tone
+    assert stereo_tone[2] != 0
+    assert stereo_tone[3] != 0
 
 
 def test_channels():
     """Test tone generation only on left channel"""
     sound_thread = tone_generator.ToneThread()
-    sound_thread.set_channel("left")
+    sound_thread.set_channel(tone_generator.LEFT_CHANNEL)
     sound_thread.make_stereo_tone()
     stereo_tone = sound_thread.tone
     assert stereo_tone[1] == 0
@@ -35,7 +38,7 @@ def test_mute():
 def test_duration():
     """Checks duration of the tone"""
     sound_thread = tone_generator.ToneThread()
-    assert sound_thread.get_duration() == sound_thread.DEFAULT_PERIOD
+    assert sound_thread.get_duration() == tone_generator.DEFAULT_PERIOD
 
 
 def test_frequency():

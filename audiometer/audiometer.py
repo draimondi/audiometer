@@ -31,8 +31,8 @@ class ExamThread(threading.Thread):
     def generate_exam_combinations(self, randomize=False):
         """Generates the combinations of frequencies and channels used for the exam"""
         channel_array = [
-            self.sound_thread.LEFT_CHANNEL,
-            self.sound_thread.RIGHT_CHANNEL,
+            tone_generator.LEFT_CHANNEL,
+            tone_generator.RIGHT_CHANNEL,
         ]
         exam_combinations = [
             (channel_array[i], self.EXAM_FREQUENCIES[j])
