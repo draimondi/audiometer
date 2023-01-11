@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies with pipenv
         run: |
           pip install pipenv
-          apt-get install portaudio19-dev
+          sudo apt-get install -y portaudio19-dev tk
           pipenv install --verbose --deploy --dev
 
       - run: pipenv run isort --recursive --diff .
