@@ -7,10 +7,13 @@
         {
             "name": "Python: Main",
             "type": "python",
+            "module": "audiometer",
             "request": "launch",
-            "program": "audiometer//__main__.py",
             "console": "integratedTerminal",
-            "justMyCode": true
+            "justMyCode": true,
+            "args": [
+                "__main__.py"
+            ]
         }
     ]
 }
