@@ -37,6 +37,7 @@ jobs:
       - name: Build docker image
         run: docker build . -t audiometer:test
 
-      - name: Smoke test docker image
-        run: |
-          docker run --rm audiometer:test 10
+# Do not smoke test the GUI within Docker. Commenting out until a web interface is developed.
+#      - name: Smoke test docker image
+#        run: |
+#          docker run --rm audiometer:test 10
