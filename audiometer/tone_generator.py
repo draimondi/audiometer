@@ -71,9 +71,13 @@ class ToneThread(threading.Thread):
             sleep_between_loops  # Include a pause between tone loops
         )
         self.make_stereo_tone()
-        self.stream = pyaudio.PyAudio().open(
-            format=pyaudio.paFloat32, channels=2, rate=self.sample_rate, output=True
-        )
+        try:
+            self.stream = pyaudio.PyAudio().open(
+                format=pyaudio.paFloat32, channels=2, rate=self.sample_rate, output=True
+            )
+        except OSError as error:
+            logging.error(error)
+            logging.error(NO_DEVICE_ERROR)
 
     def get_duration(self):
         """Returns the duration of the generated tone"""
