@@ -1,9 +1,12 @@
 """
 This python script will simulate a hearing exam, with distinct frequencies and volumes
 """
+import logging
 import threading
 import time
+
 import numpy
+
 from audiometer import tone_generator
 
 INITIAL_VOLUME = 0.0001  # Volume at which to start each tone test
@@ -64,10 +67,11 @@ class ExamThread(threading.Thread):
             self.sound_thread.set_frequency(frequency)
             self.sound_thread.unmute()
             while self.running and self.sound_thread.volume < 1:
-                print(
-                    f"Current frequency: {self.sound_thread.frequency} "
-                    f"Current volume: {self.sound_thread.volume} "
-                    f"Current Speaker: {self.sound_thread.channel}"
+                logging.debug(
+                    "Current frequency: %s Current volume: %s  Current Speaker: %s",
+                    self.sound_thread.frequency,
+                    self.sound_thread.volume,
+                    self.sound_thread.channel,
                 )
                 self.sound_thread.run()
                 self.sound_thread.set_volume(

@@ -5,9 +5,10 @@ The tone can be changed in frequency and volume on the fly
 Contains:
     - ToneThread
 """
+import logging
 import threading
 import time
-import logging
+
 import numpy as np
 import pyaudio
 
@@ -75,7 +76,7 @@ class ToneThread(threading.Thread):
             self.stream = pyaudio.PyAudio().open(
                 format=pyaudio.paFloat32, channels=2, rate=self.sample_rate, output=True
             )
-        except OSError as error:
+        except OSError as error:  # nocover-local
             logging.error(error)
             logging.error(NO_DEVICE_ERROR)
 
@@ -111,15 +112,19 @@ class ToneThread(threading.Thread):
         self.channel = channel
         self.make_stereo_tone()
 
-    def run(self):  # pragma: no cover
+    def run(self):
         """Generates the tone and plays it to the default audio device"""
         loop = 0
 
-        if pyaudio.PyAudio().get_host_api_info_by_index(0).get("deviceCount") == 0:
+        if (
+            pyaudio.PyAudio().get_host_api_info_by_index(0).get("deviceCount") == 0
+        ):  # nocover-local
             logging.error(NO_DEVICE_ERROR)
             self.stopped = True
 
-        while not self.stopped and (loop < self.loops or self.loops == -1):
+        while not self.stopped and (
+            loop < self.loops or self.loops == -1
+        ):  # nocover-ci
 
             self.stream.write((self.tone * self.volume).tobytes())
 
