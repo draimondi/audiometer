@@ -15,20 +15,24 @@ jobs:
         with:
           python-version: 3.11
 
-      - name: Generate installer spec
+      - name: Setup Dependencies
         run: |
           pip install pipenv
           sudo apt-get install -y portaudio19-dev tk
           pipenv install --verbose --deploy --dev
-          pipenv run pyinstaller --onefile .\audiometer\__main__.py --name audiometer
+
+      - name: Generate installer spec
+        run: |
+          cd audiometer
+          pipenv run pyi-makespec --onefile __main__.py --name audiometer
 
       - name: Package Windows Application
         uses: JackMcKew/pyinstaller-action-windows@main
         with:
-          path: .
+          path: audiometer
 
       - name: Publish Windows Application
         uses: actions/upload-artifact@v2
         with:
           name: audiometer
-          path: dist/windows
+          path: audiometer/dist/windows
