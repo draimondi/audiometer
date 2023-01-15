@@ -10,17 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.10
-
-      - name: Setup Dependencies
-        run: |
-          pip install pipenv
-          sudo apt-get install -y portaudio19-dev tk
-          pipenv install --dev
-
       - name: Package Windows Application
         uses: JackMcKew/pyinstaller-action-windows@main
         with:
