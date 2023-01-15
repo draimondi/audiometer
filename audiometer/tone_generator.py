@@ -12,9 +12,7 @@ import time
 import numpy as np
 import pyaudio
 
-NO_DEVICE_ERROR = (
-    "No default audio device found. You will be unable to run this sound thread."
-)
+NO_DEVICE_ERROR = "No default audio device found. Unable to run this sound thread."
 BOTH_CHANNELS = "both"
 LEFT_CHANNEL = "left"
 RIGHT_CHANNEL = "right"
@@ -28,6 +26,7 @@ class ToneThread(threading.Thread):
     DEFAULT_FREQUENCY = 440.0  # sine frequency, Hz, may be float
     DEFAULT_PERIOD = 0.2  # in seconds, may be float
     DEFAULT_LOOPS = 1  # number of times to play the tone. -1 for infinite
+    DEFAULT_VOLUME = 1.0  # volume of the generated tone
 
     def generate_sine_wave(self, num_samples, array_type=TONE_ARRAY_TYPE):
         """Generates a sine wave array of the specified type"""
@@ -57,6 +56,7 @@ class ToneThread(threading.Thread):
         rate=DEFAULT_SAMPLE_RATE,
         period=DEFAULT_PERIOD,
         loops=DEFAULT_LOOPS,
+        volume=DEFAULT_VOLUME,
         sleep_between_loops=False,
     ):
         super().__init__()
@@ -64,13 +64,11 @@ class ToneThread(threading.Thread):
         self.frequency = frequency  # frequency in Hz, may be float
         self.sample_rate = rate  # sampling rate in Hz, must be integer
         self.duration = period  # in seconds, may be float
-        self.volume = 1.0  # Volume of the tone. Float, between 0 and 1
+        self.volume = volume  # Volume of the tone. Float, between 0 and 1
         self.stopped = False  # Stop playing the tone
         self.channel = BOTH_CHANNELS  # The speaker on which to play the tone.
         self.loops = loops  # Number of times to play the tone. -1 means infinite
-        self.sleep_between_loops = (
-            sleep_between_loops  # Include a pause between tone loops
-        )
+        self.sleep_between_loops = sleep_between_loops  # Pause between tone loops
         self.make_stereo_tone()
         try:
             self.stream = pyaudio.PyAudio().open(
@@ -115,13 +113,16 @@ class ToneThread(threading.Thread):
     def run(self):
         """Generates the tone and plays it to the default audio device"""
         loop = 0
+        audio_devices = (
+            pyaudio.PyAudio().get_host_api_info_by_index(0).get("deviceCount")
+        )
 
-        if (
-            pyaudio.PyAudio().get_host_api_info_by_index(0).get("deviceCount") == 0
-        ):  # nocover-local
+        # If there are no audio devices, avoid playing sounds. Skip code coverage in local.
+        if audio_devices == 0:  # nocover-local
             logging.error(NO_DEVICE_ERROR)
             self.stopped = True
 
+        # If there are audio devices, play sounds. Skip code coverage in CI builds.
         while not self.stopped and (
             loop < self.loops or self.loops == -1
         ):  # nocover-ci

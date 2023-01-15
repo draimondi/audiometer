@@ -23,7 +23,7 @@ class ExamThread(threading.Thread):
         self.exam_array = None
         self.exam_result_array = []
         self._stop_event = threading.Event()
-        self.sound_thread = tone_generator.ToneThread()
+        self.sound_thread = tone_generator.ToneThread(volume=INITIAL_VOLUME)
         self.sound_thread.daemon = True
         self.sound_thread.mute()
         self.sound_detected = False
