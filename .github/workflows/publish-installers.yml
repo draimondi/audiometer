@@ -5,28 +5,31 @@ on:
     branches: [ release ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  release:
+    strategy:
+      matrix:
+        os: [windows-latest]
+    runs-on: ${{ matrix.os }}
+    
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      - name: Setup Python
-        uses: actions/setup-python@v1
+      - name: Install Python
+        uses: actions/setup-python@v3
         with:
-          python-version: 3.11
+          python-version: '3.11'
 
-      - name: Generate installer spec
+      - name: Install dependencies with pipenv
         run: |
           pip install pipenv
-          pipenv run pyi-makespec --onefile .\audiometer\__main__.py --name audiometer
+          pipenv install --verbose --deploy --dev
 
-    - name: Package Windows Application
-      uses: JackMcKew/pyinstaller-action-windows@main
-      with:
-        path: .
+      - name: Generate Executable
+        run: |
+          pipenv run pyinstaller --onefile .\audiometer\__main__.py --name audiometer
 
-    - uses: actions/upload-artifact@v2
-      with:
-        name: audiometer
-        path: dist/windows
+      - name: Publish Application Executable
+        uses: actions/upload-artifact@v3
+        with:
+          name: audiometer
+          path: dist
