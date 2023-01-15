@@ -11,10 +11,20 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.11
+
+      - name: Generate installer spec
+        run: |
+          pip install pipenv
+          pipenv run pyi-makespec --onefile .\audiometer\__main__.py --name audiometer
+
     - name: Package Windows Application
       uses: JackMcKew/pyinstaller-action-windows@main
       with:
-        path: audiometer
+        path: .
 
     - uses: actions/upload-artifact@v2
       with:
