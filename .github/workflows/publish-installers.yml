@@ -25,7 +25,7 @@ jobs:
         uses: JackMcKew/pyinstaller-action-windows@main
         with:
           spec: audiometer.spec
-          path: audiometer
+          path: .
 
       - name: Publish Windows Application
         uses: actions/upload-artifact@v2
