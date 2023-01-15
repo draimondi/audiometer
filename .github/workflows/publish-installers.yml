@@ -20,12 +20,13 @@ jobs:
           pip install pipenv
           pipenv run pyi-makespec --onefile .\audiometer\__main__.py --name audiometer
 
-    - name: Package Windows Application
-      uses: JackMcKew/pyinstaller-action-windows@main
-      with:
-        path: .
+      - name: Package Windows Application
+        uses: JackMcKew/pyinstaller-action-windows@main
+        with:
+          path: .
 
-    - uses: actions/upload-artifact@v2
-      with:
-        name: audiometer
-        path: dist/windows
+      - name: Publish Windows Application
+        uses: actions/upload-artifact@v2
+        with:
+          name: audiometer
+          path: dist/windows
