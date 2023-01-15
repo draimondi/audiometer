@@ -30,5 +30,11 @@ I also included the .vscode directory with my preferred VSCode settings and laun
 pipenv run python -m audiometer
 ```
 
+## Generating an Executable
+To generate an environment dependent standalone executable which can be distributed, run:
+```sh
+pipenv run pyinstaller --onefile .\audiometer\__main__.py --name audiometer
+```
+
 ## Credits
 This package was created with Cookiecutter and the [sourcery-ai/python-best-practices-cookiecutter](https://github.com/sourcery-ai/python-best-practices-cookiecutter) project template.
