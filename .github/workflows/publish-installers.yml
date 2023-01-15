@@ -5,11 +5,10 @@ on:
     branches: [ release ]
 
 jobs:
-  release_matrix:
+  release:
     strategy:
       matrix:
         os: [windows-latest]
-  build:
     runs-on: ${{ matrix.os }}
     
     steps:
