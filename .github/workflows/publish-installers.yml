@@ -17,7 +17,7 @@ jobs:
           path: .
 
       - name: Publish Windows Application
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: audiometer
           path: dist/windows
