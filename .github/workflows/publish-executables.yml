@@ -22,7 +22,7 @@ jobs:
       - name: Install pipenv
         run:  pip install pipenv
 
-      - if: "contains(['ubuntu'],${{ matrix.os }})"
+      - if: matrix.os == 'ubuntu-latest'
         name: "Install additional linux dependencies"
         run:  sudo apt-get install -y portaudio19-dev tk
 
