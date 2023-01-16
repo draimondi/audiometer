@@ -30,8 +30,11 @@ jobs:
         run:  pipenv install --verbose --deploy --dev
 
       - name: Generate Executable
-        run:  pipenv run pyinstaller --onefile .\audiometer\__main__.py --name audiometer
-
+        working-directory: audiometer
+        run: |
+          pipenv run pyinstaller --onefile __main__.py --name audiometer
+          mv dist ..
+        
       - name: Wait for tests to succeed before publish
         uses: lewagon/wait-on-check-action@v1.2.0
         with:
