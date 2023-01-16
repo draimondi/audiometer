@@ -41,6 +41,6 @@ jobs:
         with:
           name: audiometer-${{ matrix.os }}
           path: |
-            audiometer\dist\audiometer*
-            audiometer/dist/audiometer*
+            audiometer\dist\audiometer.exe
+            audiometer/dist/audiometer.pkg
           if-no-files-found: warn
