@@ -20,7 +20,10 @@ jobs:
           python-version: '3.11'
 
       - name: Install pipenv
-        run:  pip install pipenv
+        run: |
+          pip install pipenv
+          pipenv shell
+          pip install -U pip
 
       - if: matrix.os == 'ubuntu-latest'
         name: "Install additional linux dependencies"
