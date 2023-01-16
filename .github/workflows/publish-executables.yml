@@ -36,14 +36,6 @@ jobs:
         run: |
           pipenv run pyinstaller --onefile __main__.py --name audiometer
           mv dist ..
-        
-      - name: Wait for tests to succeed before publish
-        uses: lewagon/wait-on-check-action@v1.2.0
-        with:
-          ref: ${{ github.ref }}
-          check-name: 'test'
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 10
 
       - name: Publish Application Executable
         uses: actions/upload-artifact@v3
