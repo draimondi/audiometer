@@ -35,10 +35,12 @@ jobs:
         working-directory: audiometer
         run: |
           pipenv run pyinstaller --onefile __main__.py --name audiometer
-          mv dist ..
 
       - name: Publish Application Executable
         uses: actions/upload-artifact@v3
         with:
           name: audiometer-${{ matrix.os }}
-          path: dist
+          path: |
+            audiometer\dist\audiometer*
+            audiometer/dist/audiometer*
+          if-no-files-found: warn
