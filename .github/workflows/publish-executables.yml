@@ -22,7 +22,6 @@ jobs:
       - name: Install pipenv
         run: |
           pip install pipenv
-          pipenv shell
           pip install -U pip
 
       - if: matrix.os == 'ubuntu-latest'
