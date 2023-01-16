@@ -1,0 +1,47 @@
+name: Package Application with Pyinstaller
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  release:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.11'
+
+      - name: Install pipenv
+        run:  pip install pipenv
+
+      - if: "contains(['ubuntu'],${{ matrix.os }})"
+        name: "Install additional linux dependencies"
+        run:  sudo apt-get install -y portaudio19-dev tk
+
+      - name: Install dependencies with pipenv
+        run:  pipenv install --verbose --deploy --dev
+
+      - name: Generate Executable
+        run:  pipenv run pyinstaller --onefile .\audiometer\__main__.py --name audiometer
+
+      - name: Wait for tests to succeed before publish
+        uses: lewagon/wait-on-check-action@v1.2.0
+        with:
+          ref: ${{ github.ref }}
+          check-name: 'test'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
+
+      - name: Publish Application Executable
+        uses: actions/upload-artifact@v3
+        with:
+          name: audiometer-${{ matrix.os }}
+          path: dist
