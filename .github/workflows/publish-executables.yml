@@ -30,7 +30,7 @@ jobs:
         name: "Install additional MacOS dependencies"
         run: |
           brew install portaudio
-          pip install macholib
+          pipenv install macholib
 
       - name: Install dependencies with pipenv
         run:  pipenv install --verbose --deploy --dev
