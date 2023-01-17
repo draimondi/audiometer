@@ -8,7 +8,7 @@ jobs:
   release:
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     
     steps:
@@ -20,24 +20,28 @@ jobs:
           python-version: '3.11'
 
       - name: Install pipenv
-        run: |
-          pip install pipenv
-          pip install -U pip
+        run:  pip install pipenv
 
       - if: matrix.os == 'ubuntu-latest'
         name: "Install additional linux dependencies"
         run:  sudo apt-get install -y portaudio19-dev tk
 
+      - if: matrix.os == 'macos-latest'
+        name: "Install additional MacOS dependencies"
+        run:  brew install portaudio
+        
       - name: Install dependencies with pipenv
         run:  pipenv install --verbose --deploy --dev
 
       - name: Generate Executable
         working-directory: audiometer
-        run:  pipenv run pyinstaller --onefile __main__.py --name audiometer
+        run: |
+          pipenv run pyinstaller --onefile __main__.py --name audiometer
+          mv dist ..
 
       - name: Publish Application Executable
         uses: actions/upload-artifact@v3
         with:
           name: audiometer-${{ matrix.os }}
-          path: audiometer\dist
+          path: dist
           if-no-files-found: warn
