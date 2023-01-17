@@ -40,7 +40,5 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: audiometer-${{ matrix.os }}
-          path: |
-            audiometer\dist\audiometer.exe
-            audiometer/dist/audiometer.pkg
+          path: audiometer\dist\audiometer.exe
           if-no-files-found: warn
