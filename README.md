@@ -29,7 +29,12 @@ I also included the .vscode directory with my preferred VSCode settings and laun
 ```sh
 pipenv run python -m audiometer
 ```
-Alternatively, you can download the [latest ready-made executable artifact](https://nightly.link/draimondi/audiometer/workflows/publish-installers/release/audiometer.zip) from this repository
+
+## Download
+You can download the latest ready-made executable artifact for your platform from the links below:
+* [Windows](https://nightly.link/draimondi/audiometer/workflows/publish-executables/main/audiometer-windows-latest.zip) 
+* [Linux](https://nightly.link/draimondi/audiometer/workflows/publish-executables/main/audiometer-ubuntu-latest.zip)
+* [MacOS](https://nightly.link/draimondi/audiometer/workflows/publish-executables/main/audiometer-macos-latest.zip)
 
 ## Generating an Executable
 To generate an environment-dependent standalone executable which can be distributed, run:
